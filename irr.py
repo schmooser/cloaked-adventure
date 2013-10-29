@@ -12,8 +12,8 @@ NUM_ITER = 100
 
 def to_date(x):
   """Returns datetime from string in DD.MM.YYYY format"""  
-  d = map(int, x.split('.'))
-  return datetime.datetime(year=d[2], month=d[1], day=d[0])
+  day, month, year = map(int, x.split('.'))
+  return datetime.datetime(year=year, month=month, day=day)
 
 
 def dd(d1, d2):
@@ -43,7 +43,7 @@ def file2data(filename):
   f = open(filename,'r')
   payments = []
   dates = []
-  data = filter(lambda x: True if x != [''] else False,
+  data = filter(lambda x: x != [''],
                 map(lambda x: x.strip('\n').split('\t'), f.readlines()))
   for row in data:
     dates.append(row[0])
@@ -61,11 +61,9 @@ def iteration(p, d, g1, g2, n=None):
   """
   n = 0 if n is None else n
   g = (g1 + g2)/2.0
-  r = irr(p, d, g)
-  print('step %d: %10.10f' % (n, r))
-  if abs(r) < THRESHOLD:
-    return g
-  elif n >= NUM_ITER:
+  r = irr(p, d, g)  
+  print('step %d: %10.10f' % (n, r))  
+  if abs(r) < THRESHOLD or n >= NUM_ITER:
     return g
   else:
     g1 = g if r > 0 else g1
