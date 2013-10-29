@@ -4,16 +4,15 @@
 
 __author__ = 'Pavel Popov'
 
-import datetime
+from datetime import datetime
 
 THRESHOLD = 1e-8
 NUM_ITER = 100
 
 
 def to_date(x):
-  """Returns datetime from string in DD.MM.YYYY format"""  
-  day, month, year = map(int, x.split('.'))
-  return datetime.datetime(year=year, month=month, day=day)
+  """Returns datetime from string in DD.MM.YYYY format"""
+  return datetime.strptime(x, '%d.%m.%Y')
 
 
 def dd(d1, d2):
